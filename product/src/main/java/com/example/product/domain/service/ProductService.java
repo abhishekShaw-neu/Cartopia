@@ -130,7 +130,8 @@ public class ProductService {
             if (!allProducts.isEmpty()) {
                 List<ProductResponseDTO> responseDTOs = allProducts.stream().map(product -> {
                     ProductResponseDTO responseDTO = modelMapper.map(product, ProductResponseDTO.class);
-                    responseDTO.setCategory(modelMapper.map(product.getCategory(), CategoryDTO.class));
+                    Category category = categoryRepository.findById(product.getCategory()).orElse(null);
+                    responseDTO.setCategory(modelMapper.map(category, CategoryDTO.class));
                     return responseDTO;
                 }).collect(Collectors.toList());
 
